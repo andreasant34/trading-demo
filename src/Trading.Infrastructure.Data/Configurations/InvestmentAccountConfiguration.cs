@@ -13,6 +13,7 @@ namespace Trading.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<InvestmentAccount> builder)
         {
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasKey(x => new { x.UserId, x.Id });
 
             builder.HasOne(x => x.User)
