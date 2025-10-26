@@ -9,9 +9,9 @@ using Trading.Infrastructure.Data.Models;
 
 namespace Trading.Infrastructure.Data.MappingProfiles
 {
-    internal class InvestmentAccountProfile:Profile
+    internal class InvestmentAccountMappingProfile:Profile
     {
-        public InvestmentAccountProfile()
+        public InvestmentAccountMappingProfile()
         {
             CreateMap<InvestmentAccount, InvestmentAccountDetails>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
