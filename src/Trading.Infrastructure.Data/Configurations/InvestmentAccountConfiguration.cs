@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Infrastructure.Data.Models;
 
 namespace Trading.Infrastructure.Data.Configurations
@@ -13,10 +8,10 @@ namespace Trading.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<InvestmentAccount> builder)
         {
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.HasKey(x => new { x.UserId, x.Id });
+            _ = builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            _ = builder.HasKey(x => new { x.UserId, x.Id });
 
-            builder.HasOne(x => x.User)
+            _ = builder.HasOne(x => x.User)
                 .WithMany(user => user.InvestmentAccounts)
                 .HasForeignKey(account => account.UserId);
         }

@@ -4,7 +4,7 @@ using Trading.Core.Interfaces;
 
 namespace Trading.API.Queries
 {
-    public class ListTradesQuery:IRequest<IEnumerable<ListTradesDto>>
+    public class ListTradesQuery : IRequest<IEnumerable<ListTradesDto>>
     {
         public int UserId { get; set; }
     }

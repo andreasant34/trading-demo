@@ -1,18 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Infrastructure.Data.Models;
 
 namespace Trading.Infrastructure.Data
 {
-    public class TradingDbContext:DbContext
+    public class TradingDbContext : DbContext
     {
-        public TradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions):base(dbContextOptions)
+        public TradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions) : base(dbContextOptions)
         {
-            
+
         }
 
         public DbSet<User> Users { get; set; }
@@ -22,7 +17,7 @@ namespace Trading.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            _ = modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
     }
 }

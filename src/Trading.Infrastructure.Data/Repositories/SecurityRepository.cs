@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
-using Trading.Infrastructure.Data.Models;
 
 namespace Trading.Infrastructure.Data.Repositories
 {
@@ -25,10 +19,7 @@ namespace Trading.Infrastructure.Data.Repositories
         public async Task<SecurityDetails?> GetSecurityByIdAsync(int id)
         {
             var dbSecurity = await _dbContext.Securities.FirstOrDefaultAsync(x => x.Id == id);
-            if (dbSecurity == null)
-                return null;
-
-            return _mapper.Map<SecurityDetails>(dbSecurity);
+            return dbSecurity == null ? null : _mapper.Map<SecurityDetails>(dbSecurity);
         }
 
         public async Task<IEnumerable<SecurityDetails>> ListSecuritiesAsync()

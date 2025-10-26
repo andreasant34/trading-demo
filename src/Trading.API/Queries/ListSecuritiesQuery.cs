@@ -4,7 +4,7 @@ using Trading.Core.Interfaces.Data;
 
 namespace Trading.API.Queries
 {
-    public class ListSecuritiesQuery:IRequest<IEnumerable<ListSecuritiesDto>>
+    public class ListSecuritiesQuery : IRequest<IEnumerable<ListSecuritiesDto>>
     {
     }
 

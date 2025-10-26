@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Core.Models;
 using Trading.Infrastructure.Data.Models;
 
 namespace Trading.Infrastructure.Data.MappingProfiles
 {
-    internal class UserMappingProfile:Profile
+    internal class UserMappingProfile : Profile
     {
-        public UserMappingProfile() 
+        public UserMappingProfile()
         {
-            CreateMap<User, UserDetails>()
+            _ = CreateMap<User, UserDetails>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
                 .ForMember(target => target.Name, target => target.MapFrom(source => source.Name))
                 .ForMember(target => target.Surname, target => target.MapFrom(source => source.Surname))

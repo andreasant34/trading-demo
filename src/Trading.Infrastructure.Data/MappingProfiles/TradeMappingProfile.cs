@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Core.Models;
 using Trading.Infrastructure.Data.Models;
 
@@ -13,7 +8,7 @@ namespace Trading.Infrastructure.Data.MappingProfiles
     {
         public TradeMappingProfile()
         {
-            CreateMap<Trade, TradeDetails>()
+            _ = CreateMap<Trade, TradeDetails>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
                 .ForMember(target => target.UserId, target => target.MapFrom(source => source.UserId))
                 .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
@@ -26,7 +21,7 @@ namespace Trading.Infrastructure.Data.MappingProfiles
                 .ForMember(target => target.InvestmentAccountName, target => target.MapFrom(source => source.InvestmentAccount.Name))
                 .ForMember(target => target.SecurityName, target => target.MapFrom(source => source.Security.Name));
 
-            CreateMap<TradeCreationDetails, Trade>()
+            _ = CreateMap<TradeCreationDetails, Trade>()
                 .ForMember(target => target.UserId, target => target.MapFrom(source => source.UserId))
                 .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
                 .ForMember(target => target.TransactionType, target => target.MapFrom(source => source.TransactionType))

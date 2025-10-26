@@ -5,7 +5,7 @@ using Trading.Core.Models;
 
 namespace Trading.API.Commands
 {
-    public class CreateTradeCommand:IRequest<int>
+    public class CreateTradeCommand : IRequest<int>
     {
         public int InvestmentAccountId { get; set; }
         public TransactionType TransactionType { get; set; }

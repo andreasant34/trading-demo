@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trading.Core.Models
+﻿namespace Trading.Core.Models
 {
     public abstract class TradeDetailsBase
     {
@@ -19,10 +13,10 @@ namespace Trading.Core.Models
     }
 
     public class TradeCreationDetails : TradeDetailsBase
-    { 
+    {
     }
 
-    public class TradeDetails:TradeDetailsBase
+    public class TradeDetails : TradeDetailsBase
     {
         public int Id { get; set; }
         public required string SecurityName { get; set; }

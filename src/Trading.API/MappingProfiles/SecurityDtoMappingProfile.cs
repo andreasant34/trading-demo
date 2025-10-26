@@ -4,11 +4,11 @@ using Trading.Core.Models;
 
 namespace Trading.API.MappingProfiles
 {
-    public class SecurityDtoMappingProfile:Profile
+    public class SecurityDtoMappingProfile : Profile
     {
         public SecurityDtoMappingProfile()
         {
-            CreateMap<SecurityDetails, ListSecuritiesDto>();
+            _ = CreateMap<SecurityDetails, ListSecuritiesDto>();
         }
     }
 }

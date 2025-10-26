@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Trading.API.Queries;
-using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
 
 namespace Trading.API.Controllers
 {
     [Route("api/securities")]
-    public class SecuritiesController:ControllerBase
+    public class SecuritiesController : ControllerBase
     {
         private readonly IMediator _mediator;
 

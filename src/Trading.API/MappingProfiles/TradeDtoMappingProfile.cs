@@ -5,11 +5,11 @@ using Trading.Core.Models;
 
 namespace Trading.API.MappingProfiles
 {
-    public class TradeDtoMappingProfile:Profile
+    public class TradeDtoMappingProfile : Profile
     {
         public TradeDtoMappingProfile()
         {
-            CreateMap<TradeDetails, ListTradesDto>()
+            _ = CreateMap<TradeDetails, ListTradesDto>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
                 .ForMember(target => target.UserId, target => target.MapFrom(source => source.UserId))
                 .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
@@ -22,7 +22,7 @@ namespace Trading.API.MappingProfiles
                 .ForMember(target => target.InvestmentAccountName, target => target.MapFrom(source => source.InvestmentAccountName))
                 .ForMember(target => target.SecurityName, target => target.MapFrom(source => source.SecurityName));
 
-            CreateMap<CreateTradeCommand, TradeCreationDetails>()
+            _ = CreateMap<CreateTradeCommand, TradeCreationDetails>()
                 .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
                 .ForMember(target => target.TransactionType, target => target.MapFrom(source => source.TransactionType))
                 .ForMember(target => target.SecurityId, target => target.MapFrom(source => source.SecurityId))

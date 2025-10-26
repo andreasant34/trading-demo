@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trading.Core.Models;
+﻿using Trading.Core.Models;
 
 namespace Trading.Infrastructure.Data.Models
 {
@@ -12,7 +7,7 @@ namespace Trading.Infrastructure.Data.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public required User User { get; set; }
-        public int InvestmentAccountId {  get; set; }
+        public int InvestmentAccountId { get; set; }
         public required InvestmentAccount InvestmentAccount { get; set; }
         public TransactionType TransactionType { get; set; }
         public int SecurityId { get; set; }

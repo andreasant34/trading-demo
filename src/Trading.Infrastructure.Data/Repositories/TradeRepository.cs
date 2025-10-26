@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
 using Trading.Infrastructure.Data.Models;
@@ -25,8 +20,8 @@ namespace Trading.Infrastructure.Data.Repositories
         public async Task<int> CreateTradeAsync(TradeCreationDetails trade)
         {
             var dbTrade = _mapper.Map<Trade>(trade);
-            _dbContext.Trades.Add(dbTrade);
-            await _dbContext.SaveChangesAsync();
+            _ = _dbContext.Trades.Add(dbTrade);
+            _ = await _dbContext.SaveChangesAsync();
             return dbTrade.Id;
         }
 
