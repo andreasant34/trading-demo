@@ -16,6 +16,7 @@ namespace Trading.Infrastructure.Data.Extensions
             services.AddAutoMapper(x => x.AddMaps(typeof(DataServiceCollectionExtensions).Assembly));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<ITradeRepository, TradeRepository>();
             return services;
         }
     }
