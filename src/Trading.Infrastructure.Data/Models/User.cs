@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trading.Infrastructure.Data.Models
 {
-    internal class User
+    public class User
     {
         public int Id { get; set; }
         public required string Name { get; set; }

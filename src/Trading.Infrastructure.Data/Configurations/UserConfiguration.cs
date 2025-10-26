@@ -13,7 +13,7 @@ namespace Trading.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered();
+            builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Email);
         }
     }

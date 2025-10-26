@@ -7,7 +7,7 @@ using Trading.Core.Models;
 
 namespace Trading.Infrastructure.Data.Models
 {
-    internal class Trade
+    public class Trade
     {
         public int Id { get; set; }
         public int UserId { get; set; }

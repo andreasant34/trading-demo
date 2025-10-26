@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trading.Infrastructure.Data.Models
 {
-    internal class Security
+    public class Security
     {
         public int Id { get; set; }
         public required string Name { get; set; }

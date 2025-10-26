@@ -13,8 +13,8 @@ namespace Trading.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Trade> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-            builder.HasIndex(x => new { x.UserId, x.InvestmentAccountId}).IsClustered(true);
+            builder.HasKey(x => x.Id);
+            builder.HasIndex(x => new { x.UserId, x.InvestmentAccountId});
             builder.HasIndex(x => x.SecurityId);
             
             builder.HasOne(x => x.Security)

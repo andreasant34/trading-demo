@@ -13,7 +13,7 @@ namespace Trading.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<InvestmentAccount> builder)
         {
-            builder.HasKey(x => new { x.UserId, x.Id }).IsClustered();
+            builder.HasKey(x => new { x.UserId, x.Id });
 
             builder.HasOne(x => x.User)
                 .WithMany(user => user.InvestmentAccounts)
