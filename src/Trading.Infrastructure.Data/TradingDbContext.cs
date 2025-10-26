@@ -10,6 +10,11 @@ namespace Trading.Infrastructure.Data
 {
     public class TradingDbContext:DbContext
     {
+        public TradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions):base(dbContextOptions)
+        {
+            
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Security> Securities { get; set; }
         public DbSet<Trade> Trades { get; set; }
