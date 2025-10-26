@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Trading.Core.Extensions;
 using Trading.Infrastructure.Data;
 using Trading.Infrastructure.Data.Extensions;
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TradingDbContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("PostgresTradingDatabase")));
 builder.Services.AddTradingCoreServices();
 builder.Services.AddTradingDataServices();
+builder.Services.AddAutoMapper(x => x.AddMaps(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 

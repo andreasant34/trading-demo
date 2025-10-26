@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Trading.API.Commands;
+using Trading.API.Queries;
 using Trading.Core.Interfaces;
 using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
@@ -8,11 +11,11 @@ namespace Trading.API.Controllers
     [Route("api/trades")]
     public class TradesController:ControllerBase
     {
-        private readonly ITradingService _tradingService;
+        private readonly IMediator _mediator;
 
-        public TradesController(ITradingService tradingService)
+        public TradesController(IMediator mediator)
         {
-            _tradingService = tradingService;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -20,22 +23,21 @@ namespace Trading.API.Controllers
         /// </summary>
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<TradeDetails>>> ListTradesAsync()
+        public async Task<ActionResult<List<ListTradesDto>>> ListTradesAsync()
         {
-            var userId = 1;
+            var trades = await _mediator.Send(new ListTradesQuery 
+            { 
+                UserId = 1 //TODO
+            });
 
-            var trades = await _tradingService.ListTradesByUserAsync(userId);
             return Ok(trades);
         }
 
         [Route("")]
         [HttpPost]
-        public async Task<ActionResult> CreateTradeAsync([FromBody] TradeCreationDetails trade)
+        public async Task<ActionResult<int>> CreateTradeAsync([FromBody] CreateTradeCommand trade)
         {
-            var userId = 1;
-            trade.UserId = userId;
-
-            var tradeID = await _tradingService.CreateTradeAsync(trade);
+            var tradeID = await _mediator.Send(trade);
             return CreatedAtRoute(string.Empty,tradeID);
         }
     }
