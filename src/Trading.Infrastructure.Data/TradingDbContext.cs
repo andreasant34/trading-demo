@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Trading.Infrastructure.Data.Models;
+using Trading.Core.Entities;
 
 namespace Trading.Infrastructure.Data
 {
@@ -10,10 +10,10 @@ namespace Trading.Infrastructure.Data
 
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Security> Securities { get; set; }
-        public DbSet<Trade> Trades { get; set; }
-        public DbSet<InvestmentAccount> InvestmentAccounts { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<SecurityEntity> Securities { get; set; }
+        public DbSet<TradeEntity> Trades { get; set; }
+        public DbSet<InvestmentAccountEntity> InvestmentAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

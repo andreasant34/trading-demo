@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Trading.Infrastructure.Data.Models;
+using Trading.Core.Entities;
 
 namespace Trading.Infrastructure.Data.Configurations
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             _ = builder.HasKey(x => x.Id);
             _ = builder.HasIndex(x => x.Email);

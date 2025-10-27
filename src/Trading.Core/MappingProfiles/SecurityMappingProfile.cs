@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Trading.Core.Models;
-using Trading.Infrastructure.Data.Models;
+using Trading.Core.Entities;
 
-namespace Trading.Infrastructure.Data.MappingProfiles
+namespace Trading.Core.MappingProfiles
 {
     internal class SecurityMappingProfile : Profile
     {
         public SecurityMappingProfile()
         {
-            _ = CreateMap<Security, SecurityDetails>()
+            _ = CreateMap<SecurityEntity, SecurityDetails>()
                 .ReverseMap();
         }
     }

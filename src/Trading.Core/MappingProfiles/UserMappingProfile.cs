@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Trading.Core.Models;
-using Trading.Infrastructure.Data.Models;
+using Trading.Core.Entities;
 
 namespace Trading.Infrastructure.Data.MappingProfiles
 {
@@ -8,7 +8,7 @@ namespace Trading.Infrastructure.Data.MappingProfiles
     {
         public UserMappingProfile()
         {
-            _ = CreateMap<User, UserDetails>()
+            _ = CreateMap<UserEntity, UserDetails>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
                 .ForMember(target => target.Name, target => target.MapFrom(source => source.Name))
                 .ForMember(target => target.Surname, target => target.MapFrom(source => source.Surname))

@@ -1,6 +1,6 @@
-﻿namespace Trading.API.Queries
+﻿namespace Trading.Core.Entities
 {
-    public class ListSecuritiesDto
+    public class SecurityEntity
     {
         public int Id { get; set; }
         public required string Name { get; set; }

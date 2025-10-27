@@ -1,11 +1,11 @@
-﻿using Trading.Core.Models;
+﻿using Trading.Core.Entities;
 
 namespace Trading.Core.Interfaces.Data
 {
     public interface ITradeRepository
     {
-        Task<IEnumerable<TradeDetails>> ListTradesByUserAsync(int userId);
+        Task<IEnumerable<TradeEntity>> ListTradesByUserAsync(int userId);
 
-        Task<int> CreateTradeAsync(TradeCreationDetails trade);
+        Task<int> CreateTradeAsync(TradeEntity trade);
     }
 }

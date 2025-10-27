@@ -1,11 +1,11 @@
-﻿using Trading.Core.Models;
+﻿using Trading.Core.Entities;
 
 namespace Trading.Core.Interfaces.Data
 {
     public interface ISecurityRepository
     {
-        Task<IEnumerable<SecurityDetails>> ListSecuritiesAsync();
+        Task<IEnumerable<SecurityEntity>> ListSecuritiesAsync();
 
-        Task<SecurityDetails?> GetSecurityByIdAsync(int id);
+        Task<SecurityEntity?> GetSecurityByIdAsync(int id);
     }
 }

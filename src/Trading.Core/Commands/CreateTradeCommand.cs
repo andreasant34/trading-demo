@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
+using Trading.Core.Entities;
 using Trading.Core.Interfaces;
+using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
 
-namespace Trading.API.Commands
+namespace Trading.Core.Commands
 {
     public class CreateTradeCommand : IRequest<int>
     {
@@ -18,21 +20,22 @@ namespace Trading.API.Commands
 
     public class CreateTradeCommandHandler : IRequestHandler<CreateTradeCommand, int>
     {
-        private readonly ITradingService _tradingService;
+        private readonly IUserContextService _userContextService;
+        private readonly ITradeRepository _tradeRepository;
         private readonly IMapper _mapper;
 
-        public CreateTradeCommandHandler(ITradingService tradingService, IMapper mapper)
+        public CreateTradeCommandHandler(IUserContextService userContext, ITradeRepository tradeRepository, IMapper mapper)
         {
-            _tradingService = tradingService;
+            _userContextService = userContext;
+            _tradeRepository = tradeRepository;
             _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateTradeCommand request, CancellationToken cancellationToken)
         {
-            var trade = _mapper.Map<TradeCreationDetails>(request);
-            trade.UserId = 1;//TODO
-
-            var tradeId = await _tradingService.CreateTradeAsync(trade);
+            var tradeEntity = _mapper.Map<TradeEntity>(request);
+            tradeEntity.UserId = _userContextService.GetUserId();
+            var tradeId = await _tradeRepository.CreateTradeAsync(tradeEntity);
             return tradeId;
         }
     }

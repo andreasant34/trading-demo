@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Trading.API.Queries;
 using Trading.Core.Models;
+using Trading.Core.Queries;
 
 namespace Trading.API.Controllers
 {

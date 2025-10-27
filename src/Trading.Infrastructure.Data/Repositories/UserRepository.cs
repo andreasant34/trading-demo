@@ -1,31 +1,26 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Trading.Core.Entities;
 using Trading.Core.Interfaces.Data;
-using Trading.Core.Models;
 
 namespace Trading.Infrastructure.Data.Repositories
 {
     internal class UserRepository : IUserRepository
     {
         private readonly TradingDbContext _dbContext;
-        private readonly IMapper _mapper;
-
-        public UserRepository(TradingDbContext dbContext, IMapper mapper)
+        
+        public UserRepository(TradingDbContext dbContext)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
         }
 
-        public async Task<UserDetails?> GetUserByEmailAsync(string email)
+        public async Task<UserEntity?> GetUserByEmailAsync(string email)
         {
-            var dbUser = await _dbContext.Users.Include(x => x.InvestmentAccounts).FirstOrDefaultAsync(x => x.Email == email);
-            return dbUser == null ? null : _mapper.Map<UserDetails>(dbUser);
+            return await _dbContext.Users.Include(x => x.InvestmentAccounts).FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task<IEnumerable<UserDetails>> ListUsersAsync()
+        public async Task<IEnumerable<UserEntity>> ListUsersAsync()
         {
-            var dbUsers = await _dbContext.Users.Include(x => x.InvestmentAccounts).ToListAsync();
-            return _mapper.Map<IEnumerable<UserDetails>>(dbUsers);
+            return await _dbContext.Users.Include(x => x.InvestmentAccounts).ToListAsync();
         }
     }
 }

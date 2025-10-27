@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Trading.API.Commands;
-using Trading.API.Queries;
+using Trading.Core.Commands;
+using Trading.Core.Queries;
+using Trading.Core.Models;
 
 namespace Trading.API.Controllers
 {
@@ -20,13 +21,9 @@ namespace Trading.API.Controllers
         /// </summary>
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<ListTradesDto>>> ListTradesAsync()
+        public async Task<ActionResult<List<TradeDetails>>> ListTradesAsync()
         {
-            var trades = await _mediator.Send(new ListTradesQuery
-            {
-                UserId = 1 //TODO
-            });
-
+            var trades = await _mediator.Send(new ListTradesQuery());
             return Ok(trades);
         }
 

@@ -1,11 +1,11 @@
-﻿using Trading.Core.Models;
+﻿using Trading.Core.Entities;
 
 namespace Trading.Core.Interfaces.Data
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<UserDetails>> ListUsersAsync();
+        Task<IEnumerable<UserEntity>> ListUsersAsync();
 
-        Task<UserDetails?> GetUserByEmailAsync(string email);
+        Task<UserEntity?> GetUserByEmailAsync(string email);
     }
 }
