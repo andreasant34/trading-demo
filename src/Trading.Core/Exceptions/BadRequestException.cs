@@ -3,7 +3,7 @@
     /// <summary>
     /// The exception that is thrown when a request is invalid
     /// </summary>
-    internal class BadRequestException:Exception
+    public class BadRequestException:Exception
     {
         public BadRequestException(ExceptionCode exceptionCode)
         {

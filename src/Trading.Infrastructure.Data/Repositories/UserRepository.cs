@@ -18,6 +18,11 @@ namespace Trading.Infrastructure.Data.Repositories
             return await _dbContext.Users.Include(x => x.InvestmentAccounts).FirstOrDefaultAsync(x => x.Email == email);
         }
 
+        public async Task<UserEntity?> GetUserByIdAsync(int id)
+        {
+            return await _dbContext.Users.Include(x => x.InvestmentAccounts).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<IEnumerable<UserEntity>> ListUsersAsync()
         {
             return await _dbContext.Users.Include(x => x.InvestmentAccounts).ToListAsync();
