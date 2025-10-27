@@ -10,6 +10,7 @@ namespace Trading.Infrastructure.Data.Configurations
         {
             _ = builder.HasKey(x => x.Id);
             _ = builder.HasIndex(x => new { x.UserId, x.InvestmentAccountId });
+            _ = builder.HasIndex(x => new { x.UserId, x.SecurityId });
             _ = builder.HasIndex(x => x.SecurityId);
 
             _ = builder.HasOne(x => x.Security)
