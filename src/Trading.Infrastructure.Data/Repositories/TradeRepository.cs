@@ -28,5 +28,14 @@ namespace Trading.Infrastructure.Data.Repositories
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<TradeEntity>> ListTradesByUserSecurityAsync(int userId, int securityId)
+        {
+            return await _dbContext.Trades
+                .Include(x => x.Security)
+                .Include(x => x.InvestmentAccount)
+                .Where(x => x.UserId == userId && x.SecurityId == securityId)
+                .ToListAsync();
+        }
     }
 }

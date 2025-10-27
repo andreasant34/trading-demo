@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using System.Linq;
 using Trading.Core.Entities;
+using Trading.Core.Exceptions;
 using Trading.Core.Interfaces;
 using Trading.Core.Interfaces.Data;
 using Trading.Core.Models;
@@ -22,12 +24,21 @@ namespace Trading.Core.Commands
     {
         private readonly IUserContextService _userContextService;
         private readonly ITradeRepository _tradeRepository;
+        private readonly ISecurityRepository _securityRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public CreateTradeCommandHandler(IUserContextService userContext, ITradeRepository tradeRepository, IMapper mapper)
+        public CreateTradeCommandHandler(
+            IUserContextService userContext, 
+            ITradeRepository tradeRepository, 
+            ISecurityRepository securityRepository, 
+            IUserRepository userRepository, 
+            IMapper mapper)
         {
             _userContextService = userContext;
             _tradeRepository = tradeRepository;
+            _securityRepository = securityRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -35,6 +46,33 @@ namespace Trading.Core.Commands
         {
             var tradeEntity = _mapper.Map<TradeEntity>(request);
             tradeEntity.UserId = _userContextService.GetUserId();
+
+            var userEntity = await _userRepository.GetUserByIdAsync(tradeEntity.UserId);
+            var accountIds = userEntity!.InvestmentAccounts.Select(x => x.Id);
+            if (!accountIds.Contains(tradeEntity.InvestmentAccountId))
+            {
+                throw new BadRequestException(ExceptionCode.INVESTMENT_ACCOUNT_NOT_FOUND);
+            }
+
+            var securityEntity = await _securityRepository.GetSecurityByIdAsync(tradeEntity.SecurityId);
+            if (securityEntity == null)
+            {
+                throw new BadRequestException(ExceptionCode.SECURITY_NOT_FOUND);
+            }
+
+            if (tradeEntity.TransactionType == TransactionType.Sell)
+            {
+                var securityTrades = await _tradeRepository.ListTradesByUserSecurityAsync(tradeEntity.UserId, tradeEntity.SecurityId);
+                var buyQuantity = securityTrades.Where(x => x.TransactionType == TransactionType.Buy).Sum(x => x.Quantity);
+                var sellQuantity = securityTrades.Where(x => x.TransactionType == TransactionType.Sell).Sum(x => x.Quantity);
+                var availableQuantity = buyQuantity - sellQuantity;
+                
+                if (tradeEntity.Quantity > availableQuantity)
+                {
+                    throw new BadRequestException(ExceptionCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE);
+                }
+            }
+
             var tradeId = await _tradeRepository.CreateTradeAsync(tradeEntity);
             return tradeId;
         }
