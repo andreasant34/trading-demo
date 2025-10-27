@@ -51,13 +51,13 @@ namespace Trading.Core.Commands
             var accountIds = userEntity!.InvestmentAccounts.Select(x => x.Id);
             if (!accountIds.Contains(tradeEntity.InvestmentAccountId))
             {
-                throw new BadRequestException(ExceptionCode.INVESTMENT_ACCOUNT_NOT_FOUND);
+                throw new BadRequestException(ErrorCode.INVESTMENT_ACCOUNT_NOT_FOUND);
             }
 
             var securityEntity = await _securityRepository.GetSecurityByIdAsync(tradeEntity.SecurityId);
             if (securityEntity == null)
             {
-                throw new BadRequestException(ExceptionCode.SECURITY_NOT_FOUND);
+                throw new BadRequestException(ErrorCode.SECURITY_NOT_FOUND);
             }
 
             if (tradeEntity.TransactionType == TransactionType.Sell)
@@ -69,7 +69,7 @@ namespace Trading.Core.Commands
                 
                 if (tradeEntity.Quantity > availableQuantity)
                 {
-                    throw new BadRequestException(ExceptionCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE);
+                    throw new BadRequestException(ErrorCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE);
                 }
             }
 
