@@ -30,6 +30,18 @@ namespace Trading.Infrastructure.Data.MappingProfiles
                 .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode))
                 .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
                 .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount));
+
+            _ = CreateMap<TradeEntity, TradeCreatedCommand>()
+                .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
+                .ForMember(target => target.UserId, target => target.MapFrom(source => source.UserId))
+                .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
+                .ForMember(target => target.TransactionType, target => target.MapFrom(source => source.TransactionType))
+                .ForMember(target => target.SecurityId, target => target.MapFrom(source => source.SecurityId))
+                .ForMember(target => target.Quantity, target => target.MapFrom(source => source.Quantity))
+                .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode))
+                .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
+                .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount));
+
         }
     }
 }

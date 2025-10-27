@@ -6,6 +6,7 @@ using Trading.API.Services;
 using Trading.Core.Extensions;
 using Trading.Core.Interfaces;
 using Trading.Infrastructure.Data.Extensions;
+using Trading.Infrastructure.MessageBus.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddTradingCoreServices();
 builder.Services.AddTradingDataServices(x => x.UseNpgsql(builder.Configuration.GetConnectionString("PostgresTradingDatabase")));
+builder.Services.AddMessageBusServices(builder.Configuration, false);
 
 builder.Services.AddScoped<RequestIdMiddleware>();
 builder.Services.AddHttpLogging(options =>

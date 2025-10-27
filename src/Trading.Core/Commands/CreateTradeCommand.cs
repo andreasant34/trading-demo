@@ -5,6 +5,7 @@ using Trading.Core.Entities;
 using Trading.Core.Exceptions;
 using Trading.Core.Interfaces;
 using Trading.Core.Interfaces.Data;
+using Trading.Core.Interfaces.MessageBus;
 using Trading.Core.Models;
 
 namespace Trading.Core.Commands
@@ -27,19 +28,22 @@ namespace Trading.Core.Commands
         private readonly ISecurityRepository _securityRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IMessageBus _messageBus;
 
         public CreateTradeCommandHandler(
             IUserContextService userContext, 
             ITradeRepository tradeRepository, 
             ISecurityRepository securityRepository, 
             IUserRepository userRepository, 
-            IMapper mapper)
+            IMapper mapper,
+            IMessageBus messageBus)
         {
             _userContextService = userContext;
             _tradeRepository = tradeRepository;
             _securityRepository = securityRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _messageBus = messageBus;
         }
 
         public async Task<int> Handle(CreateTradeCommand request, CancellationToken cancellationToken)
@@ -74,6 +78,12 @@ namespace Trading.Core.Commands
             }
 
             var tradeId = await _tradeRepository.CreateTradeAsync(tradeEntity);
+            tradeEntity.Id = tradeId;
+
+            var tradeCreatedCommand = _mapper.Map<TradeCreatedCommand>(tradeEntity);
+            await _messageBus.PublishAsync(tradeCreatedCommand);
+            //await _messageBus.SendAsync(tradeCreatedCommand);
+
             return tradeId;
         }
     }
