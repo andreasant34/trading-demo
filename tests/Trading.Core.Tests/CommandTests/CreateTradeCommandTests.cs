@@ -81,7 +81,7 @@ namespace Trading.Core.Tests.CommandTests
             Assert.True(newTradeId > 0);
         }
 
-        private void InitTradeTest(out CreateTradeCommandHandler commandHandler, out IMapper mapper, out int userIdToTest, out List<TradeEntity> tradeEntities, out List<UserEntity> userEntities, out List<SecurityEntity> securityEntities)
+        public static void InitTradeTest(out CreateTradeCommandHandler commandHandler, out IMapper mapper, out int userIdToTest, out List<TradeEntity> tradeEntities, out List<UserEntity> userEntities, out List<SecurityEntity> securityEntities)
         {
             userEntities = MockUserHelper.GetTestUserEntities();
             tradeEntities = MockTradeHelper.GetTestTradeEntities();
