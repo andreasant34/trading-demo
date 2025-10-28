@@ -3,9 +3,9 @@ using Trading.Core.Models;
 using Trading.Core.Entities;
 using Trading.Core.Commands;
 
-namespace Trading.Infrastructure.Data.MappingProfiles
+namespace Trading.Core.MappingProfiles
 {
-    internal class TradeMappingProfile : Profile
+    public class TradeMappingProfile : Profile
     {
         public TradeMappingProfile()
         {
@@ -20,16 +20,23 @@ namespace Trading.Infrastructure.Data.MappingProfiles
                 .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
                 .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount))
                 .ForMember(target => target.InvestmentAccountName, target => target.MapFrom(source => source.InvestmentAccount.Name))
-                .ForMember(target => target.SecurityName, target => target.MapFrom(source => source.Security.Name));
+                .ForMember(target => target.SecurityName, target => target.MapFrom(source => source.Security.Name))
+                .ReverseMap();
 
             _ = CreateMap<CreateTradeCommand, TradeEntity>()
+                .ForMember(target => target.Id, opt => opt.Ignore())
+                .ForMember(target => target.UserId, opt => opt.Ignore())
                 .ForMember(target => target.InvestmentAccountId, target => target.MapFrom(source => source.InvestmentAccountId))
                 .ForMember(target => target.TransactionType, target => target.MapFrom(source => source.TransactionType))
                 .ForMember(target => target.SecurityId, target => target.MapFrom(source => source.SecurityId))
                 .ForMember(target => target.Quantity, target => target.MapFrom(source => source.Quantity))
                 .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode.ToUpper()))
                 .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
-                .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount));
+                .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount))
+                .ForMember(target => target.User, opt => opt.Ignore())
+                .ForMember(target => target.Security, opt => opt.Ignore())
+                .ForMember(target => target.InvestmentAccount, opt => opt.Ignore())
+                .ReverseMap();
 
             _ = CreateMap<TradeEntity, TradeCreatedCommand>()
                 .ForMember(target => target.Id, target => target.MapFrom(source => source.Id))
@@ -40,7 +47,8 @@ namespace Trading.Infrastructure.Data.MappingProfiles
                 .ForMember(target => target.Quantity, target => target.MapFrom(source => source.Quantity))
                 .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode))
                 .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
-                .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount));
+                .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount))
+                .ReverseMap();
 
         }
     }

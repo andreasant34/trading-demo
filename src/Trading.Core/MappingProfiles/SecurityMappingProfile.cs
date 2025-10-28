@@ -4,7 +4,7 @@ using Trading.Core.Entities;
 
 namespace Trading.Core.MappingProfiles
 {
-    internal class SecurityMappingProfile : Profile
+    public class SecurityMappingProfile : Profile
     {
         public SecurityMappingProfile()
         {

@@ -4,7 +4,7 @@ using Trading.Core.Entities;
 
 namespace Trading.Core.MappingProfiles
 {
-    internal class InvestmentAccountMappingProfile : Profile
+    public class InvestmentAccountMappingProfile : Profile
     {
         public InvestmentAccountMappingProfile()
         {

@@ -2,9 +2,9 @@
 using Trading.Core.Models;
 using Trading.Core.Entities;
 
-namespace Trading.Infrastructure.Data.MappingProfiles
+namespace Trading.Core.MappingProfiles
 {
-    internal class UserMappingProfile : Profile
+    public class UserMappingProfile : Profile
     {
         public UserMappingProfile()
         {
