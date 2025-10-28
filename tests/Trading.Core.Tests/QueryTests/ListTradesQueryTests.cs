@@ -8,7 +8,7 @@ using Trading.Core.Queries;
 using Trading.Core.Tests.Comparers;
 using Trading.Core.Tests.MockHelpers;
 
-namespace Trading.Core.Tests
+namespace Trading.Core.Tests.QueryTests
 {
     public class ListTradesQueryTests
     {

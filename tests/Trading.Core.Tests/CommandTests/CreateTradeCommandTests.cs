@@ -7,7 +7,7 @@ using Trading.Core.Interfaces.MessageBus;
 using Trading.Core.Models;
 using Trading.Core.Tests.MockHelpers;
 
-namespace Trading.Core.Tests
+namespace Trading.Core.Tests.CommandTests
 {
     public class CreateTradeCommandTests
     {
@@ -24,7 +24,7 @@ namespace Trading.Core.Tests
             createTradeCopy.InvestmentAccountId = userEntities.First(x => x.Id != userIdToTest).InvestmentAccounts.First().Id;
 
             var exception = await Assert.ThrowsAsync<BadRequestException>(async() => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
-            Assert.Equal(Models.ErrorCode.INVESTMENT_ACCOUNT_NOT_FOUND, exception.ErrorCode);
+            Assert.Equal(ErrorCode.INVESTMENT_ACCOUNT_NOT_FOUND, exception.ErrorCode);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Trading.Core.Tests
             createTradeCopy.SecurityId = securityEntities.Select(x => x.Id).Max() + 1;
 
             var exception = await Assert.ThrowsAsync<BadRequestException>(async () => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
-            Assert.Equal(Models.ErrorCode.SECURITY_NOT_FOUND, exception.ErrorCode);
+            Assert.Equal(ErrorCode.SECURITY_NOT_FOUND, exception.ErrorCode);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Trading.Core.Tests
             createTradeCopy.Quantity = availableQuantity + 1;
             
             var exception = await Assert.ThrowsAsync<BadRequestException>(async () => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
-            Assert.Equal(Models.ErrorCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE, exception.ErrorCode);
+            Assert.Equal(ErrorCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE, exception.ErrorCode);
         }
 
         [Fact]
