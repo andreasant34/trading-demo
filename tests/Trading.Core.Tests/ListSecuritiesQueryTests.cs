@@ -21,7 +21,7 @@ namespace Trading.Core.Tests
                 }
             };
 
-            var expectedOutcome = new List<SecurityDetails>
+            var expectedResult = new List<SecurityDetails>
             {
                 new SecurityDetails
                 {
@@ -38,9 +38,7 @@ namespace Trading.Core.Tests
 
             var result = await queryHandler.Handle(new ListSecuritiesQuery(),CancellationToken.None);
 
-            Assert.Equal(expectedOutcome.Count, result.Count());
-            Assert.Equal(expectedOutcome.First().Id, result.First().Id);
-            Assert.Equal(expectedOutcome.First().Name, result.First().Name);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
