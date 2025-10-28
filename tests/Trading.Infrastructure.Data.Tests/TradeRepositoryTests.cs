@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Trading.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Trading.Infrastructure.Data.Repositories;
 
 namespace Trading.Infrastructure.Data.Tests
