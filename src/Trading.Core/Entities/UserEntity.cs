@@ -7,6 +7,6 @@
         public required string Surname { get; set; }
         public required string Email { get; set; }
         public required List<InvestmentAccountEntity> InvestmentAccounts { get; set; }
-        public required List<TradeEntity> Trades { get; set; }
+        public List<TradeEntity>? Trades { get; set; }
     }
 }
