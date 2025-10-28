@@ -35,6 +35,26 @@ public class UserRepositoryTests
         Assert.Null(notFoundUser);
     }
 
+    [Fact]
+    public async Task GetUserByEmail_ShouldReturnUser_When_User_Exists()
+    {
+        var context = InitSeededTradingDbContext();
+        var userRepository = new UserRepository(context);
+
+        var existingUser = await userRepository.GetUserByEmailAsync(context.SeededEmails.First());
+        Assert.NotNull(existingUser);
+    }
+
+    [Fact]
+    public async Task GetUserByEmail_ShouldReturnNull_When_User_NotExists()
+    {
+        var context = InitSeededTradingDbContext();
+        var userRepository = new UserRepository(context);
+
+        var notFoundUser = await userRepository.GetUserByEmailAsync("notfoundemail@gmail.com");
+        Assert.Null(notFoundUser);
+    }
+
     private static SeededTradingDbContext InitSeededTradingDbContext()
     {
         var options = new DbContextOptionsBuilder<TradingDbContext>()
