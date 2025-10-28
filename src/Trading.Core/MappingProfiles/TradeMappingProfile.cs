@@ -27,7 +27,7 @@ namespace Trading.Infrastructure.Data.MappingProfiles
                 .ForMember(target => target.TransactionType, target => target.MapFrom(source => source.TransactionType))
                 .ForMember(target => target.SecurityId, target => target.MapFrom(source => source.SecurityId))
                 .ForMember(target => target.Quantity, target => target.MapFrom(source => source.Quantity))
-                .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode))
+                .ForMember(target => target.CurrencyCode, target => target.MapFrom(source => source.CurrencyCode.ToUpper()))
                 .ForMember(target => target.Price, target => target.MapFrom(source => source.Price))
                 .ForMember(target => target.TotalAmount, target => target.MapFrom(source => source.TotalAmount));
 
