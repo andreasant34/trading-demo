@@ -28,7 +28,7 @@ namespace Trading.API.Middleware
 
         public static string GetOrSetRequestIdFromRequest(HttpContext context)
         {
-            context.Response.Headers.TryGetValue(RequestIdHeaderKey, out StringValues requestIdHeader);
+            _ = context.Response.Headers.TryGetValue(RequestIdHeaderKey, out var requestIdHeader);
 
             var requestId = requestIdHeader.FirstOrDefault() ?? Guid.NewGuid().ToString();
 

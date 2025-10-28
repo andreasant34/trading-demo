@@ -11,11 +11,11 @@ namespace Trading.Core.Tests.MockHelpers
         {
             var mockTradeRepository = new Mock<ITradeRepository>();
 
-            mockTradeRepository
+            _ = mockTradeRepository
                 .Setup(x => x.ListTradesByUserAsync(It.IsAny<int>()))
                 .ReturnsAsync((int id) => tradeEntities.Where(x => x.UserId == id));
 
-            mockTradeRepository
+            _ = mockTradeRepository
                 .Setup(x => x.ListTradesByUserSecurityAsync(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync((int userId, int securityId) => tradeEntities.Where(x => x.UserId == userId && x.SecurityId == securityId));
 

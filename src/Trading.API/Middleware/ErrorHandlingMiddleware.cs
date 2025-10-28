@@ -34,17 +34,14 @@ namespace Trading.API.Middleware
                 RequestId = RequestIdMiddleware.GetOrSetRequestIdFromRequest(context)
             };
 
-            var validationException = ex as ValidationException;
-            var badRequestException = ex as BadRequestException;
-
-            if (validationException != null)
+            if (ex is ValidationException validationException)
             {
                 _logger.LogWarning(ex, "An API bad request has occurred.");
                 context.Response.StatusCode = 400;
                 errorHandlingResponse.ErrorCode = ErrorCode.VALIDATION;
                 errorHandlingResponse.Message = string.Concat(validationException.Errors.Select(x => x.ErrorMessage + Environment.NewLine));
             }
-            else if (badRequestException != null)
+            else if (ex is BadRequestException badRequestException)
             {
                 _logger.LogWarning(ex, "An API bad request has occurred.");
                 context.Response.StatusCode = 400;
@@ -62,7 +59,7 @@ namespace Trading.API.Middleware
     }
 
     public class ErrorHandlingResponse
-    { 
+    {
         public ErrorCode ErrorCode { get; set; }
 
         public required string Message { get; set; }

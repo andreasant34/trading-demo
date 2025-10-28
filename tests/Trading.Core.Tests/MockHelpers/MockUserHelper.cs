@@ -10,7 +10,7 @@ namespace Trading.Core.Tests.MockHelpers
         public static Mock<IUserContextService> InitMockUserContextService(int userIdToTest)
         {
             var mockUserContextService = new Mock<IUserContextService>();
-            mockUserContextService.Setup(x => x.GetUserId()).Returns(userIdToTest);
+            _ = mockUserContextService.Setup(x => x.GetUserId()).Returns(userIdToTest);
             return mockUserContextService;
         }
 
@@ -18,14 +18,14 @@ namespace Trading.Core.Tests.MockHelpers
         {
             var mockUserRepository = new Mock<IUserRepository>();
 
-            mockUserRepository
+            _ = mockUserRepository
                 .Setup(x => x.GetUserByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((int userId) => userEntities.FirstOrDefault(x => x.Id == userId));
 
-            mockUserRepository
+            _ = mockUserRepository
                 .Setup(x => x.GetUserByEmailAsync(It.IsAny<string>()))
                 .ReturnsAsync((string email) => userEntities.FirstOrDefault(x => x.Email == email));
-            
+
             return mockUserRepository;
         }
 
@@ -41,15 +41,15 @@ namespace Trading.Core.Tests.MockHelpers
                     Email = $"email{i}@gmail.com",
                     Surname = $"Surname {i}",
                     Name = $"Name {i}",
-                    InvestmentAccounts = new List<InvestmentAccountEntity>
-                    {
+                    InvestmentAccounts =
+                    [
                         new InvestmentAccountEntity
                         {
                             Id = i,//Let the investment account id and the user id match
                             UserId = i,
                             Name = $"Investment account {i}"
                         }
-                    }
+                    ]
                 });
             }
 

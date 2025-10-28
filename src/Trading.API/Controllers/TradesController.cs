@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Trading.Core.Commands;
-using Trading.Core.Queries;
 using Trading.Core.Models;
+using Trading.Core.Queries;
 
 namespace Trading.API.Controllers
 {

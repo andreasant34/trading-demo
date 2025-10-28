@@ -10,16 +10,16 @@ namespace Trading.Infrastructure.MessageBus.Extensions
     {
         public static IServiceCollection AddMessageBusServices(this IServiceCollection services, IConfiguration configuration, bool isConsumer)
         {
-            services.AddMassTransit(x =>
+            _ = services.AddMassTransit(x =>
             {
                 if (isConsumer)
                 {
-                    x.AddConsumer<TradeCreatedConsumer>();
+                    _ = x.AddConsumer<TradeCreatedConsumer>();
                 }
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(configuration.GetSection("RabbitMq:Host").Value!, h => 
+                    cfg.Host(configuration.GetSection("RabbitMq:Host").Value!, h =>
                     {
                         h.Username(configuration.GetSection("RabbitMq:Username").Value!);
                         h.Password(configuration.GetSection("RabbitMq:Password").Value!);
@@ -37,7 +37,7 @@ namespace Trading.Infrastructure.MessageBus.Extensions
                 });
             });
 
-            services.AddScoped<IMessageBus, TradingMessageBus>();
+            _ = services.AddScoped<IMessageBus, TradingMessageBus>();
 
             return services;
         }

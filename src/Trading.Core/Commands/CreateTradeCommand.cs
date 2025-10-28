@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Linq;
 using Trading.Core.Entities;
 using Trading.Core.Exceptions;
 using Trading.Core.Interfaces;
@@ -31,10 +30,10 @@ namespace Trading.Core.Commands
         private readonly IMessageBus _messageBus;
 
         public CreateTradeCommandHandler(
-            IUserContextService userContext, 
-            ITradeRepository tradeRepository, 
-            ISecurityRepository securityRepository, 
-            IUserRepository userRepository, 
+            IUserContextService userContext,
+            ITradeRepository tradeRepository,
+            ISecurityRepository securityRepository,
+            IUserRepository userRepository,
             IMapper mapper,
             IMessageBus messageBus)
         {
@@ -70,7 +69,7 @@ namespace Trading.Core.Commands
                 var buyQuantity = securityTrades.Where(x => x.TransactionType == TransactionType.Buy).Sum(x => x.Quantity);
                 var sellQuantity = securityTrades.Where(x => x.TransactionType == TransactionType.Sell).Sum(x => x.Quantity);
                 var availableQuantity = buyQuantity - sellQuantity;
-                
+
                 if (tradeEntity.Quantity > availableQuantity)
                 {
                     throw new BadRequestException(ErrorCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE);

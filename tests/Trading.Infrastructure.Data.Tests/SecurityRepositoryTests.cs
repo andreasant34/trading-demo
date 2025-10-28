@@ -42,7 +42,7 @@ namespace Trading.Infrastructure.Data.Tests
                                 .Options;
 
             var context = new SeededTradingDbContext(options);
-            context.Database.EnsureCreated();
+            _ = context.Database.EnsureCreated();
             context.SeedSecurityData();
             return context;
         }

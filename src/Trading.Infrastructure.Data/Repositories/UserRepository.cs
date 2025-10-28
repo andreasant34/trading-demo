@@ -7,7 +7,7 @@ namespace Trading.Infrastructure.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly TradingDbContext _dbContext;
-        
+
         public UserRepository(TradingDbContext dbContext)
         {
             _dbContext = dbContext;

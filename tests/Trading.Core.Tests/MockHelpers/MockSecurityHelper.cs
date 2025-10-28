@@ -10,11 +10,11 @@ namespace Trading.Core.Tests.MockHelpers
         {
             var mockSecurityRepository = new Mock<ISecurityRepository>();
 
-            mockSecurityRepository
+            _ = mockSecurityRepository
                 .Setup(x => x.ListSecuritiesAsync())
                 .ReturnsAsync(securityEntities);
 
-            mockSecurityRepository
+            _ = mockSecurityRepository
                 .Setup(x => x.GetSecurityByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((int securityId) => securityEntities.FirstOrDefault(x => x.Id == securityId));
 

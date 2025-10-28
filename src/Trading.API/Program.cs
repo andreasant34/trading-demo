@@ -21,8 +21,8 @@ builder.Services.AddMessageBusServices(builder.Configuration, false);
 builder.Services.AddScoped<RequestIdMiddleware>();
 builder.Services.AddHttpLogging(options =>
 {
-    options.RequestHeaders.Add(RequestIdMiddleware.RequestIdHeaderKey);
-    options.ResponseHeaders.Add(RequestIdMiddleware.RequestIdHeaderKey);
+    _ = options.RequestHeaders.Add(RequestIdMiddleware.RequestIdHeaderKey);
+    _ = options.ResponseHeaders.Add(RequestIdMiddleware.RequestIdHeaderKey);
     options.MediaTypeOptions.AddText("application/json");
     options.LoggingFields =
         HttpLoggingFields.RequestHeaders |
@@ -32,8 +32,9 @@ builder.Services.AddHttpLogging(options =>
 });
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
-builder.Host.UseSerilog((context,configuration) => {
-    configuration.ReadFrom.Configuration(context.Configuration);
+builder.Host.UseSerilog((context, configuration) =>
+{
+    _ = configuration.ReadFrom.Configuration(context.Configuration);
 });
 
 var app = builder.Build();

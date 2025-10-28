@@ -10,13 +10,13 @@ namespace Trading.Infrastructure.Data.Tests
         public IList<SecurityEntity> SeededSecurities { get; private set; }
         public IList<TradeEntity> SeededTrades { get; private set; }
 
-        public SeededTradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions) 
+        public SeededTradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions)
             : base(dbContextOptions)
         {
-            SeededUsers = new List<UserEntity>();
-            SeededInvestmentAccounts = new List<InvestmentAccountEntity>();
-            SeededSecurities = new List<SecurityEntity>();
-            SeededTrades = new List<TradeEntity>();
+            SeededUsers = [];
+            SeededInvestmentAccounts = [];
+            SeededSecurities = [];
+            SeededTrades = [];
         }
 
         public void SeedAllData()
@@ -28,7 +28,7 @@ namespace Trading.Infrastructure.Data.Tests
 
         public void SeedUserData()
         {
-            int investmentAccountIdCounter = 1;
+            var investmentAccountIdCounter = 1;
             for (var userIdCounter = 1; userIdCounter <= 5; userIdCounter++)
             {
                 var newUser = new UserEntity
@@ -37,11 +37,11 @@ namespace Trading.Infrastructure.Data.Tests
                     Name = $"Name {userIdCounter}",
                     Surname = $"Surname {userIdCounter}",
                     Email = $"name{userIdCounter}@gmail.com",
-                    InvestmentAccounts = new List<InvestmentAccountEntity>()
+                    InvestmentAccounts = []
                 };
 
                 SeededUsers.Add(newUser);
-                Users.Add(newUser);
+                _ = Users.Add(newUser);
 
                 for (var investmentAccountCounter = 1; investmentAccountCounter <= 2; investmentAccountCounter++)
                 {
@@ -53,12 +53,12 @@ namespace Trading.Infrastructure.Data.Tests
                     };
 
                     SeededInvestmentAccounts.Add(investmentAccount);
-                    InvestmentAccounts.Add(investmentAccount);
+                    _ = InvestmentAccounts.Add(investmentAccount);
                     investmentAccountIdCounter++;
                 }
             }
 
-            SaveChanges();
+            _ = SaveChanges();
         }
 
         public void SeedSecurityData()
@@ -72,16 +72,16 @@ namespace Trading.Infrastructure.Data.Tests
                 };
 
                 SeededSecurities.Add(newSecurity);
-                Securities.Add(newSecurity);
+                _ = Securities.Add(newSecurity);
             }
 
-            SaveChanges();
+            _ = SaveChanges();
         }
 
         public void SeedTradeData()
         {
             var lkpInvestmentAccountsByUser = SeededInvestmentAccounts.ToLookup(x => x.UserId);
-            
+
             var tradeIdCounter = 1;
 
             foreach (var user in SeededUsers)
@@ -92,26 +92,26 @@ namespace Trading.Infrastructure.Data.Tests
                     var securityPrice = tradeIdCounter;
                     var quantity = tradeIdCounter;
 
-                    var newTrade = new TradeEntity 
+                    var newTrade = new TradeEntity
                     {
                         Id = tradeIdCounter,
                         UserId = user.Id,
                         InvestmentAccountId = userInvestmentAccounts.First().Id,
                         SecurityId = security.Id,
-                        TransactionType = Core.Models.TransactionType.Buy, 
+                        TransactionType = Core.Models.TransactionType.Buy,
                         Price = securityPrice,
                         Quantity = quantity,
                         CurrencyCode = "EUR",
-                        TotalAmount = securityPrice * quantity                            
+                        TotalAmount = securityPrice * quantity
                     };
 
                     SeededTrades.Add(newTrade);
-                    Trades.Add(newTrade);
+                    _ = Trades.Add(newTrade);
                     tradeIdCounter++;
                 }
             }
 
-            SaveChanges();
+            _ = SaveChanges();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Trading.Core.Tests
             configuration.AssertConfigurationIsValid();
         }
 
-        public static MapperConfiguration GetTestMapperConfigurationForProfile<TProfile>() 
+        public static MapperConfiguration GetTestMapperConfigurationForProfile<TProfile>()
             where TProfile : Profile, new()
         {
             return new MapperConfiguration(cfg =>

@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Trading.Core.Entities;
 using Trading.Core.Interfaces.Data;
 using Trading.Core.MappingProfiles;
 using Trading.Core.Models;
@@ -20,11 +19,11 @@ namespace Trading.Core.Tests.QueryTests
             var expectedResult = mapper.Map<IEnumerable<SecurityDetails>>(securityEntities).ToList();
 
             var mockSecurityRepository = new Mock<ISecurityRepository>();
-            mockSecurityRepository.Setup(x => x.ListSecuritiesAsync()).ReturnsAsync(securityEntities);
+            _ = mockSecurityRepository.Setup(x => x.ListSecuritiesAsync()).ReturnsAsync(securityEntities);
 
             var queryHandler = new ListSecuritiesQueryHandler(mockSecurityRepository.Object, mapper);
 
-            var result = await queryHandler.Handle(new ListSecuritiesQuery(),CancellationToken.None);
+            var result = await queryHandler.Handle(new ListSecuritiesQuery(), CancellationToken.None);
 
             Assert.Equal(expectedResult, result, new SecurityDetailsComparer());
         }

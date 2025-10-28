@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Trading.Core.Models;
-using Trading.Core.Entities;
 using Trading.Core.Commands;
+using Trading.Core.Entities;
+using Trading.Core.Models;
 
 namespace Trading.Core.MappingProfiles
 {

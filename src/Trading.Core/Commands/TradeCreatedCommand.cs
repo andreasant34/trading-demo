@@ -5,7 +5,7 @@ using Trading.Core.Models;
 
 namespace Trading.Core.Commands
 {
-    public class TradeCreatedCommand:IRequest
+    public class TradeCreatedCommand : IRequest
     {
         public int Id { get; set; }
         public int UserId { get; set; }

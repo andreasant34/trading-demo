@@ -5,7 +5,7 @@ namespace Trading.Core.Exceptions
     /// <summary>
     /// The exception that is thrown when a request is invalid
     /// </summary>
-    public class BadRequestException:Exception
+    public class BadRequestException : Exception
     {
         public BadRequestException(ErrorCode exceptionCode)
         {

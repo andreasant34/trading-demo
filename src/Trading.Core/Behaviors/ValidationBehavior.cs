@@ -4,7 +4,7 @@ using MediatR;
 namespace Trading.Core.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest:notnull
+        where TRequest : notnull
     {
         private readonly IEnumerable<IValidator> _validators;
 
@@ -36,7 +36,9 @@ namespace Trading.Core.Behaviors
                 .ToList();
 
             if (failures.Any())
+            {
                 throw new ValidationException(failures);
+            }
         }
     }
 }

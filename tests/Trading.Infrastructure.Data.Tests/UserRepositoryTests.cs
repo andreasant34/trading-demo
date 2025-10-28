@@ -62,7 +62,7 @@ public class UserRepositoryTests
                             .Options;
 
         var context = new SeededTradingDbContext(options);
-        context.Database.EnsureCreated();
+        _ = context.Database.EnsureCreated();
         context.SeedUserData();
         return context;
     }
