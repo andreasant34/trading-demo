@@ -4,6 +4,7 @@ using Trading.Core.Interfaces.Data;
 using Trading.Core.MappingProfiles;
 using Trading.Core.Models;
 using Trading.Core.Queries;
+using Trading.Core.Tests.MockHelpers;
 
 namespace Trading.Core.Tests
 {
@@ -12,28 +13,14 @@ namespace Trading.Core.Tests
         [Fact]
         public async Task ListSecuritiesQueryHandler_ShouldReturnAllSecurityDetails()
         {
-            var securityEntities = new List<SecurityEntity>
-            {
-                new SecurityEntity
-                {
-                    Id = 1,
-                    Name = "Test"
-                }
-            };
+            var securityEntities = MockSecurityHelper.GetTestSecurityEntities();
 
-            var expectedResult = new List<SecurityDetails>
-            {
-                new SecurityDetails
-                {
-                    Id = 1,
-                    Name = "Test"
-                }
-            };
+            var mapper = MappingProfileTests.GetTestMapperConfigurationForProfile<SecurityMappingProfile>().CreateMapper();
+            var expectedResult = mapper.Map<IEnumerable<SecurityDetails>>(securityEntities).ToList();
 
             var mockSecurityRepository = new Mock<ISecurityRepository>();
             mockSecurityRepository.Setup(x => x.ListSecuritiesAsync()).ReturnsAsync(securityEntities);
 
-            var mapper = MappingProfileTests.GetTestMapperConfigurationForProfile<SecurityMappingProfile>().CreateMapper();
             var queryHandler = new ListSecuritiesQueryHandler(mockSecurityRepository.Object, mapper);
 
             var result = await queryHandler.Handle(new ListSecuritiesQuery(),CancellationToken.None);
