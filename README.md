@@ -10,6 +10,7 @@ docker run -d --name my-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=
 docker pull rabbitmq:3-management
 docker run -d --name my-rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
 
+dotnet ef migrations add SeedingTestData --startup-project src/Trading.API/Trading.API.csproj  --project src/Trading.Infrastructure.Data/Trading.Infrastructure.Data.csproj
 dotnet ef database update --startup-project src/Trading.API/Trading.API.csproj  --project src/Trading.Infrastructure.Data/Trading.Infrastructure.Data.csproj
 ```
 - Open Trading.sln
