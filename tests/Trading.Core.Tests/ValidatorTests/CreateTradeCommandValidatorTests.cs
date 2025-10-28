@@ -20,5 +20,19 @@ namespace Trading.Core.Tests.ValidatorTests
 
             Assert.Contains(result.Errors, x => x.ErrorMessage.Contains("TotalAmount"));
         }
+
+        [Fact]
+        public void CreateTradeCommandValidator_ShouldSucceed_WhenTotalAddsUp()
+        {
+            CreateTradeCommandTests.InitTradeTest(out var createTradeCommandHandler, out var mapper, out var userIdToTest, out var tradeEntities, out var userEntities, out var securityEntities);
+
+            var tradeEntity = tradeEntities.First();
+            var createTradeCommand = mapper.Map<CreateTradeCommand>(tradeEntity);
+            
+            var validator = new CreateTradeCommandValidator();
+            var result = validator.Validate(createTradeCommand);
+
+            Assert.True(result.IsValid);
+        }
     }
 }
