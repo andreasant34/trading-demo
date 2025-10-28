@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Trading.Core.Behaviors
 {
+    /// <summary>
+    /// Applies all validators with each applicable request
+    /// </summary>
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
     {

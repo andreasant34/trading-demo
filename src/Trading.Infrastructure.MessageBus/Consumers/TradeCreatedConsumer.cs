@@ -4,6 +4,9 @@ using Trading.Core.Commands;
 
 namespace Trading.Infrastructure.MessageBus.Consumers
 {
+    /// <summary>
+    /// The MassTransit consumer of a <see cref="TradeCreatedCommand"/>
+    /// </summary>
     public class TradeCreatedConsumer : IConsumer<TradeCreatedCommand>
     {
         private readonly IMediator _mediator;
