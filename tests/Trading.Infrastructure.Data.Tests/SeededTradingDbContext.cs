@@ -5,22 +5,25 @@ namespace Trading.Infrastructure.Data.Tests
 {
     internal class SeededTradingDbContext : TradingDbContext
     {
-        public ISet<int> SeededUserIDs { get; private set; }
-        public ISet<string> SeededEmails { get; private set; }
-        public ISet<int> SeededSecurityIDs { get; private set; }
+        public IList<UserEntity> SeededUsers { get; private set; }
+        public IList<InvestmentAccountEntity> SeededInvestmentAccounts { get; private set; }
+        public IList<SecurityEntity> SeededSecurities { get; private set; }
+        public IList<TradeEntity> SeededTrades { get; private set; }
 
         public SeededTradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions) 
             : base(dbContextOptions)
         {
-            SeededUserIDs = new HashSet<int>();
-            SeededEmails = new HashSet<string>();
-            SeededSecurityIDs = new HashSet<int>();
+            SeededUsers = new List<UserEntity>();
+            SeededInvestmentAccounts = new List<InvestmentAccountEntity>();
+            SeededSecurities = new List<SecurityEntity>();
+            SeededTrades = new List<TradeEntity>();
         }
 
         public void SeedAllData()
         {
             SeedUserData();
             SeedSecurityData();
+            SeedTradeData();
         }
 
         public void SeedUserData()
@@ -37,8 +40,7 @@ namespace Trading.Infrastructure.Data.Tests
                     InvestmentAccounts = new List<InvestmentAccountEntity>()
                 };
 
-                SeededUserIDs.Add(newUser.Id);
-                SeededEmails.Add(newUser.Email);
+                SeededUsers.Add(newUser);
                 Users.Add(newUser);
 
                 for (var investmentAccountCounter = 1; investmentAccountCounter <= 2; investmentAccountCounter++)
@@ -50,10 +52,10 @@ namespace Trading.Infrastructure.Data.Tests
                         UserId = userIdCounter
                     };
 
+                    SeededInvestmentAccounts.Add(investmentAccount);
                     InvestmentAccounts.Add(investmentAccount);
                     investmentAccountIdCounter++;
                 }
-
             }
 
             SaveChanges();
@@ -69,8 +71,44 @@ namespace Trading.Infrastructure.Data.Tests
                     Name = $"Security {securityIdCounter}"
                 };
 
-                SeededSecurityIDs.Add(newSecurity.Id);
+                SeededSecurities.Add(newSecurity);
                 Securities.Add(newSecurity);
+            }
+
+            SaveChanges();
+        }
+
+        public void SeedTradeData()
+        {
+            var lkpInvestmentAccountsByUser = SeededInvestmentAccounts.ToLookup(x => x.UserId);
+            
+            var tradeIdCounter = 1;
+
+            foreach (var user in SeededUsers)
+            {
+                var userInvestmentAccounts = lkpInvestmentAccountsByUser[user.Id];
+                foreach (var security in SeededSecurities)
+                {
+                    var securityPrice = tradeIdCounter;
+                    var quantity = tradeIdCounter;
+
+                    var newTrade = new TradeEntity 
+                    {
+                        Id = tradeIdCounter,
+                        UserId = user.Id,
+                        InvestmentAccountId = userInvestmentAccounts.First().Id,
+                        SecurityId = security.Id,
+                        TransactionType = Core.Models.TransactionType.Buy, 
+                        Price = securityPrice,
+                        Quantity = quantity,
+                        CurrencyCode = "EUR",
+                        TotalAmount = securityPrice * quantity                            
+                    };
+
+                    SeededTrades.Add(newTrade);
+                    Trades.Add(newTrade);
+                    tradeIdCounter++;
+                }
             }
 
             SaveChanges();

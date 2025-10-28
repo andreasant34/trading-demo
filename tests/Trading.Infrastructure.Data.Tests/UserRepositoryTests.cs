@@ -12,7 +12,7 @@ public class UserRepositoryTests
         var userRepository = new UserRepository(context);
 
         var allUsers = await userRepository.ListUsersAsync();
-        Assert.Equal(allUsers.Count(), context.SeededUserIDs.Count());
+        Assert.Equal(allUsers.Count(), context.SeededUsers.Count());
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class UserRepositoryTests
         var context = InitSeededTradingDbContext();
         var userRepository = new UserRepository(context);
 
-        var existingUser = await userRepository.GetUserByIdAsync(context.SeededUserIDs.First());
+        var existingUser = await userRepository.GetUserByIdAsync(context.SeededUsers.First().Id);
         Assert.NotNull(existingUser);
     }
 
@@ -31,7 +31,7 @@ public class UserRepositoryTests
         var context = InitSeededTradingDbContext();
         var userRepository = new UserRepository(context);
 
-        var notFoundUser = await userRepository.GetUserByIdAsync(context.SeededUserIDs.Max() + 1);
+        var notFoundUser = await userRepository.GetUserByIdAsync(context.SeededUsers.Max(x => x.Id) + 1);
         Assert.Null(notFoundUser);
     }
 
@@ -41,7 +41,7 @@ public class UserRepositoryTests
         var context = InitSeededTradingDbContext();
         var userRepository = new UserRepository(context);
 
-        var existingUser = await userRepository.GetUserByEmailAsync(context.SeededEmails.First());
+        var existingUser = await userRepository.GetUserByEmailAsync(context.SeededUsers.First().Email);
         Assert.NotNull(existingUser);
     }
 

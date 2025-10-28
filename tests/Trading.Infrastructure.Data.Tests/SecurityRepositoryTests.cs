@@ -12,7 +12,7 @@ namespace Trading.Infrastructure.Data.Tests
             var securityRepository = new SecurityRepository(context);
 
             var allSecurities = await securityRepository.ListSecuritiesAsync();
-            Assert.Equal(allSecurities.Count(), context.SeededSecurityIDs.Count());
+            Assert.Equal(allSecurities.Count(), context.SeededSecurities.Count());
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace Trading.Infrastructure.Data.Tests
             var context = InitSeededTradingDbContext();
             var securityRepository = new SecurityRepository(context);
 
-            var existingSecurity = await securityRepository.GetSecurityByIdAsync(context.SeededSecurityIDs.First());
+            var existingSecurity = await securityRepository.GetSecurityByIdAsync(context.SeededSecurities.First().Id);
             Assert.NotNull(existingSecurity);
         }
 
@@ -31,7 +31,7 @@ namespace Trading.Infrastructure.Data.Tests
             var context = InitSeededTradingDbContext();
             var securityRepository = new SecurityRepository(context);
 
-            var notFoundSecurity = await securityRepository.GetSecurityByIdAsync(context.SeededSecurityIDs.Max() + 1);
+            var notFoundSecurity = await securityRepository.GetSecurityByIdAsync(context.SeededSecurities.Max(x => x.Id) + 1);
             Assert.Null(notFoundSecurity);
         }
 
