@@ -4,6 +4,7 @@ using Trading.Core.Interfaces.Data;
 using Trading.Core.MappingProfiles;
 using Trading.Core.Models;
 using Trading.Core.Queries;
+using Trading.Core.Tests.Comparers;
 using Trading.Core.Tests.MockHelpers;
 
 namespace Trading.Core.Tests.QueryTests
@@ -25,7 +26,7 @@ namespace Trading.Core.Tests.QueryTests
 
             var result = await queryHandler.Handle(new ListSecuritiesQuery(),CancellationToken.None);
 
-            Assert.Equal(expectedResult, result);
+            Assert.Equal(expectedResult, result, new SecurityDetailsComparer());
         }
     }
 }
