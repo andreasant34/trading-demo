@@ -7,17 +7,20 @@ namespace Trading.Infrastructure.Data.Tests
     {
         public ISet<int> SeededUserIDs { get; private set; }
         public ISet<string> SeededEmails { get; private set; }
+        public ISet<int> SeededSecurityIDs { get; private set; }
 
         public SeededTradingDbContext(DbContextOptions<TradingDbContext> dbContextOptions) 
             : base(dbContextOptions)
         {
             SeededUserIDs = new HashSet<int>();
             SeededEmails = new HashSet<string>();
+            SeededSecurityIDs = new HashSet<int>();
         }
 
         public void SeedAllData()
         {
             SeedUserData();
+            SeedSecurityData();
         }
 
         public void SeedUserData()
@@ -51,6 +54,23 @@ namespace Trading.Infrastructure.Data.Tests
                     investmentAccountIdCounter++;
                 }
 
+            }
+
+            SaveChanges();
+        }
+
+        public void SeedSecurityData()
+        {
+            for (var securityIdCounter = 1; securityIdCounter <= 5; securityIdCounter++)
+            {
+                var newSecurity = new SecurityEntity
+                {
+                    Id = securityIdCounter,
+                    Name = $"Security {securityIdCounter}"
+                };
+
+                SeededSecurityIDs.Add(newSecurity.Id);
+                Securities.Add(newSecurity);
             }
 
             SaveChanges();
