@@ -9,42 +9,50 @@ namespace Trading.Core.Tests
         [Fact]
         public void UserInvestmentMappingProfile_ShouldBeValid()
         {
-            AssertMappingProfilesAreValid<UserMappingProfile, InvestmentAccountMappingProfile>();
+            var configuration = GetTestMapperConfigurationForMultipleProfiles<UserMappingProfile, InvestmentAccountMappingProfile>();
+            configuration.AssertConfigurationIsValid();
         }
 
         [Fact]
         public void SecurityMappingProfile_ShouldBeValid()
         {
-            AssertMappingProfileIsValid<SecurityMappingProfile>();
+            var configuration = GetTestMapperConfigurationForProfile<SecurityMappingProfile>();
+            configuration.AssertConfigurationIsValid();
         }
 
         [Fact]
         public void TradeMappingProfile_ShouldBeValid()
         {
-            AssertMappingProfileIsValid<TradeMappingProfile>();
-        }
-
-        private void AssertMappingProfileIsValid<TProfile>() where TProfile:Profile,new()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<TProfile>();
-            }, new NullLoggerFactory());
-
+            var configuration = GetTestMapperConfigurationForProfile<TradeMappingProfile>();
             configuration.AssertConfigurationIsValid();
         }
 
-        private void AssertMappingProfilesAreValid<TProfile1, TProfile2>() 
+        public static MapperConfiguration GetTestMapperConfigurationForProfile<TProfile>() 
+            where TProfile : Profile, new()
+        {
+            return new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<TProfile>();
+            }, new NullLoggerFactory());
+        }
+
+        public static MapperConfiguration GetTestMapperConfigurationForMultipleProfiles<TProfile1, TProfile2>()
             where TProfile1 : Profile, new()
             where TProfile2 : Profile, new()
         {
-            var configuration = new MapperConfiguration(cfg =>
+            return new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<TProfile1>();
                 cfg.AddProfile<TProfile2>();
             }, new NullLoggerFactory());
+        }
 
-            configuration.AssertConfigurationIsValid();
+        public static MapperConfiguration GetTestMapperConfigurationForAllProfiles()
+        {
+            return new MapperConfiguration(cfg =>
+            {
+                cfg.AddMaps(typeof(TradeMappingProfile).Assembly);
+            }, new NullLoggerFactory());
         }
     }
 }
