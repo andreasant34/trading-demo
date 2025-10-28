@@ -4,7 +4,7 @@ using Trading.Core.Interfaces.Data;
 
 namespace Trading.Infrastructure.Data.Repositories
 {
-    internal class TradeRepository : ITradeRepository
+    public class TradeRepository : ITradeRepository
     {
         private readonly TradingDbContext _dbContext;
         
