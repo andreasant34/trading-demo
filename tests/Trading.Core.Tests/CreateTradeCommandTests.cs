@@ -4,6 +4,7 @@ using Trading.Core.Commands;
 using Trading.Core.Entities;
 using Trading.Core.Exceptions;
 using Trading.Core.Interfaces.MessageBus;
+using Trading.Core.Models;
 using Trading.Core.Tests.MockHelpers;
 
 namespace Trading.Core.Tests
@@ -15,12 +16,12 @@ namespace Trading.Core.Tests
         {
             InitTradeTest(out var createTradeCommandHandler, out var mapper, out var userIdToTest, out var tradeEntities, out var userEntities, out var securityEntities);
 
-            var firstTrade = tradeEntities.First();
-            var firstTradeUser = userEntities.First( x=> x.Id == firstTrade.UserId);
+            var tradeEntity = tradeEntities.First(x => x.UserId == userIdToTest);
+            
+            var createTradeCopy = mapper.Map<CreateTradeCommand>(tradeEntity);
 
-            var createTradeCopy = mapper.Map<CreateTradeCommand>(firstTrade);
             //Assign an investment account of another user
-            createTradeCopy.InvestmentAccountId = userEntities.First(x => x.Id != firstTrade.UserId).InvestmentAccounts.First().Id;
+            createTradeCopy.InvestmentAccountId = userEntities.First(x => x.Id != userIdToTest).InvestmentAccounts.First().Id;
 
             var exception = await Assert.ThrowsAsync<BadRequestException>(async() => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
             Assert.Equal(Models.ErrorCode.INVESTMENT_ACCOUNT_NOT_FOUND, exception.ErrorCode);
@@ -31,15 +32,53 @@ namespace Trading.Core.Tests
         {
             InitTradeTest(out var createTradeCommandHandler, out var mapper, out var userIdToTest, out var tradeEntities, out var userEntities, out var securityEntities);
 
-            var firstTrade = tradeEntities.First();
-            var firstTradeUser = userEntities.First(x => x.Id == firstTrade.UserId);
+            var tradeEntity = tradeEntities.First(x => x.UserId == userIdToTest);
 
-            var createTradeCopy = mapper.Map<CreateTradeCommand>(firstTrade);
+            var createTradeCopy = mapper.Map<CreateTradeCommand>(tradeEntity);
+
             //Assign an invalid security id
             createTradeCopy.SecurityId = securityEntities.Select(x => x.Id).Max() + 1;
 
             var exception = await Assert.ThrowsAsync<BadRequestException>(async () => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
             Assert.Equal(Models.ErrorCode.SECURITY_NOT_FOUND, exception.ErrorCode);
+        }
+
+        [Fact]
+        public async Task CreateTradeCommand_ShouldThrowTradeSellQuantityNotAvailable_WhenQuantityNotAvailable()
+        {
+            InitTradeTest(out var createTradeCommandHandler, out var mapper, out var userIdToTest, out var tradeEntities, out var userEntities, out var securityEntities);
+
+            var tradeEntity = tradeEntities.First(x => x.UserId == userIdToTest);
+
+            var createTradeCopy = mapper.Map<CreateTradeCommand>(tradeEntity);
+
+            var tradesOfThisUserSecurity = tradeEntities.Where(x => x.UserId == userIdToTest && x.SecurityId == createTradeCopy.SecurityId);
+            var buyQuantity = tradesOfThisUserSecurity.Where(x => x.TransactionType == TransactionType.Buy).Sum(x => x.Quantity);
+            var sellQuantity = tradesOfThisUserSecurity.Where(x => x.TransactionType == TransactionType.Sell).Sum(x => x.Quantity);
+            var availableQuantity = buyQuantity - sellQuantity;
+
+            //Attempt to sell more securities than the user has available
+            createTradeCopy.TransactionType = TransactionType.Sell;
+            createTradeCopy.Quantity = availableQuantity + 1;
+            
+            var exception = await Assert.ThrowsAsync<BadRequestException>(async () => await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None));
+            Assert.Equal(Models.ErrorCode.TRADE_SELL_QUANTITY_NOT_AVAILABLE, exception.ErrorCode);
+        }
+
+        [Fact]
+        public async Task CreateTradeCommand_ShouldSucceedSell_WhenQuantityIsAvailable()
+        {
+            InitTradeTest(out var createTradeCommandHandler, out var mapper, out var userIdToTest, out var tradeEntities, out var userEntities, out var securityEntities);
+
+            var buyTradeEntity = tradeEntities.First(x => x.UserId == userIdToTest && x.TransactionType == TransactionType.Buy);
+
+            var createTradeCopy = mapper.Map<CreateTradeCommand>(buyTradeEntity);
+
+            //Attempt to sell a previous buy
+            createTradeCopy.TransactionType = TransactionType.Sell;
+            
+            var newTradeId = await createTradeCommandHandler.Handle(createTradeCopy, CancellationToken.None);
+            Assert.True(newTradeId > 0);
         }
 
         private void InitTradeTest(out CreateTradeCommandHandler commandHandler, out IMapper mapper,out int userIdToTest, out List<TradeEntity> tradeEntities, out List<UserEntity> userEntities, out List<SecurityEntity> securityEntities)

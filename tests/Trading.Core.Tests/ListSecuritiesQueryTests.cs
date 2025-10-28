@@ -11,7 +11,7 @@ namespace Trading.Core.Tests
     public class ListSecuritiesQueryTests
     {
         [Fact]
-        public async Task ListSecuritiesQueryHandler_ShouldReturnAllSecurityDetails()
+        public async Task ListSecuritiesQuery_ShouldReturnAllSecurityDetails()
         {
             var securityEntities = MockSecurityHelper.GetTestSecurityEntities();
 

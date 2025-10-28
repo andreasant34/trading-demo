@@ -13,7 +13,7 @@ namespace Trading.Core.Tests
     public class ListTradesQueryTests
     {
         [Fact]
-        public async Task ListTradesQueryHandler_ShouldReturnUserTradesOnly()
+        public async Task ListTradesQuery_ShouldReturnUserTradesOnly()
         {
             var tradeEntities = MockTradeHelper.GetTestTradeEntities();
             var userIdToTest = tradeEntities.First().UserId;
