@@ -7,21 +7,15 @@ namespace Trading.Core.Tests
     public class MappingProfileTests
     {
         [Fact]
-        public void UserMappingProfile_ShouldBeValid()
+        public void UserInvestmentMappingProfile_ShouldBeValid()
         {
-            AssertMappingProfileIsValid<UserMappingProfile>();
+            AssertMappingProfilesAreValid<UserMappingProfile, InvestmentAccountMappingProfile>();
         }
 
         [Fact]
         public void SecurityMappingProfile_ShouldBeValid()
         {
             AssertMappingProfileIsValid<SecurityMappingProfile>();
-        }
-
-        [Fact]
-        public void InvestmentAccountMappingProfile_ShouldBeValid()
-        {
-            AssertMappingProfileIsValid<InvestmentAccountMappingProfile>();
         }
 
         [Fact]
@@ -35,6 +29,19 @@ namespace Trading.Core.Tests
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<TProfile>();
+            }, new NullLoggerFactory());
+
+            configuration.AssertConfigurationIsValid();
+        }
+
+        private void AssertMappingProfilesAreValid<TProfile1, TProfile2>() 
+            where TProfile1 : Profile, new()
+            where TProfile2 : Profile, new()
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<TProfile1>();
+                cfg.AddProfile<TProfile2>();
             }, new NullLoggerFactory());
 
             configuration.AssertConfigurationIsValid();
