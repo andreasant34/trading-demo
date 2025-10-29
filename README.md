@@ -36,7 +36,7 @@ Other Technologies used:
 - Postgresql  
 
 Future improvements:
-- Prepare a dockerized image of the API application andthe  Console application
+- Prepare a dockerized image of the API application and the  Console application
 - Prepare a dockerized image of the Postgres database to contain a particular snapshot of data
 - Wrap the dockerized images of my applications + rabbitmq image + postgres image + postgres snapshot image into a docker-compose.yml file
 - Implement authentication to gain information on the currently logged in user
