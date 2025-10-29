@@ -19,6 +19,13 @@ namespace Trading.Infrastructure.Data.Tests
             SeededTrades = [];
         }
 
+        #region To be removed once the default seeding is removed from the parent
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            _ = modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        }
+        #endregion
+
         public void SeedAllData()
         {
             SeedUserData();
